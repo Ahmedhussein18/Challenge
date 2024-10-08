@@ -1,4 +1,4 @@
-# Use PHP-FPM base image
+# Use PHP:8.1 base image
 FROM php:8.1-cli
 
 # Install dependencies
@@ -18,7 +18,7 @@ RUN composer update
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Expose port 9000 for PHP-FPM
+# Expose port 8000
 EXPOSE 8000
 
 CMD ["php", "artisan", "serve", "--host=0.0.0.0"]
