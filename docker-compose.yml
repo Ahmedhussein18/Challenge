@@ -1,7 +1,9 @@
 services:
-  db:
+#Initialize db service
+  db: 
     image: mysql:8.0
-    environment:
+    #Set the mysql environment variables
+    environment: 
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: bookapi
       MYSQL_USER: app
@@ -10,12 +12,13 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - app-network
-
+#Initialize the api service
   api:
     ports: 
-     - 8000:8000
+     - 8000  #Expose on port 8000
     build:
       context: ./api
+ #Set the environment variables     
     environment:
       DB_HOST: db
       DB_DATABASE: bookapi
@@ -25,10 +28,10 @@ services:
       - app-network
     depends_on:
       - db
-   
+#Initialize the client service   
   client:
     ports:
-      - 3000:3000
+      - 3000
     build:
       context: ./client
     environment:
@@ -37,12 +40,13 @@ services:
       - app-network
     depends_on:
       - api
-  
+ #Initialize nginx open ports 80 for HTTP and 443 for HTTPS 
   nginx:
     image: nginx:alpine
     ports:
       - "80:80"
-      - "443:443"  
+      - "443:443" 
+ #mount volumes containing nginx.conf and certs     
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/certs:/etc/nginx/certs  
